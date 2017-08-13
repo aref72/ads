@@ -3,7 +3,11 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
 <?php
-$form= ActiveForm::begin()
+$form= ActiveForm::begin([
+    'options' => [
+        'data-pjax' => true
+    ]
+])
 ?>
 <?= $form->field($userModel,'username') ?>
 <?= $form->field($userModel,'password_hash')->passwordInput() ?>

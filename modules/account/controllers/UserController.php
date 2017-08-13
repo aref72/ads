@@ -16,34 +16,31 @@ class UserController extends Controller
      * Renders the index view for the module
      * @return string
      */
-
-    
-        public function actionList()
+    public function actionList()
     {
-        $dataProvider= new ActiveDataProvider([
-            'query'=>User::find(),
-            'pagination' => [ 'pageSize' => 3 ]
-        ]);
+        $userSearchModel = new \app\modules\account\models\UserSearch();
+        $dataProvider = $userSearchModel->search(Yii::$app->request->queryParams);
         
         
         return $this->render('list',[
+            'userSearchModel' => $userSearchModel,
             'dataProvider'=>$dataProvider
         ]);
         
     }
     
-        public function actionDelete($id)
+    public function actionDelete($id)
     {
         $userModel= User::findOne($id);
         $userModel->delete();
         $this->redirect(['list']);
     }
     
-        public function actionUpdate($id)
+    public function actionUpdate($id)
     {
   
         $userModel= User::findOne($id);
-        $userModel->updated_at= time();
+        $userModel->updated_at= time().'';
         $userModel->auth_key= \Yii::$app->security->generateRandomString();
         if ($userModel->load(\Yii::$app->request->post()) && $userModel->validate()){
             $userModel->password_hash= \Yii::$app->security->generatePasswordHash($userModel->password_hash);
@@ -57,20 +54,22 @@ class UserController extends Controller
         
     }
     
-        public function actionCreate()
+    public function actionCreate()
     {
-        $userModel= new User;
-        $userModel->created_at= time();
-        $userModel->updated_at= time();
+        $userModel= new User();
+        $userModel->created_at= time().'';
+        $userModel->updated_at= time().'';
         $userModel->auth_key= \Yii::$app->security->generateRandomString();
         if ($userModel->load(\Yii::$app->request->post()) && $userModel->validate()){
             $userModel->password_hash= \Yii::$app->security->generatePasswordHash($userModel->password_hash);
-            $userModel->save();
-            die(var_dump($userModel));
-           $this->redirect(['list']);
+            if($userModel->save())
+            {
+                return true;
+            }
+            
         }
  
-      return $this->render('create',[
+      return $this->renderAjax('create',[
             'userModel'=>$userModel
         ]);
  
