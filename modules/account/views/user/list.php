@@ -33,8 +33,8 @@ use yii\widgets\Pjax;
     'updated_at',
 
        [
-           'class'=> '\yii\grid\ActionColumn'
-       ]
+           'class'=> '\yii\grid\ActionColumn',
+       ],
     ]
 ]) 
 ?>

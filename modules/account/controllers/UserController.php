@@ -47,7 +47,7 @@ class UserController extends Controller
             $userModel->save();
            $this->redirect(['list']);
         }
-      return  $this->render('update',[
+      return  $this->renderAjax('update',[
           'userModel'=>$userModel
       ]);
 
