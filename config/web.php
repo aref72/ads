@@ -11,8 +11,23 @@ $config = [
         'account' => [
             'class' => 'app\modules\account\Module',
         ],
+        'dashboard' => [
+            'class' => 'app\modules\dashboard\Module'
+        ],
+        'ads' => [
+            'class' => 'app\modules\ads\Module',
+        ],
     ],
     'components' => [
+        'utility' => [
+            'class' => 'app\components\Utility'
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => ['@app/views' => '@webroot/themes/adminlte'],
+                'baseUrl' => '@web/themes/adminlte',
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'zZXlFe24MVe3QYutwUxeVLa51Qtu7Gts',
@@ -21,7 +36,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\account\models\User',
+            'loginUrl' => ['account/user/login'],
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

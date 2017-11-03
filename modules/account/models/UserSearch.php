@@ -6,48 +6,43 @@ use Yii;
 use yii\data\ActiveDataProvider;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "users".
  *
  * @property integer $id
  * @property string $username
+ * @property string $password
  * @property string $email
- * @property string $password_hash
- * @property integer $status
- * @property string $auth_key
- * @property string $password_reset_token
- * @property string $account_activation_token
- * @property string $created_at
- * @property string $updated_at
- * @property integer $level
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $logo
+ * @property integer $usertype
+ * @property integer $signuptime
+ * @property string $authKey
+ *
+ * @property Link[] $links
+ * @property Usertype $usertype0
  */
 class UserSearch extends User
 {
-
-    public function rules() {
+    
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
         return [
-            [['id', 'username', 'email', 'status', 'level'], 'safe'],   
+            [['username', 'password', 'email', 'usertype', 'authKey'], 'safe'],
         ];
     }
     
-    public function search($params) {
+    public function search($params)
+    {
         $activeQuery = User::find();
         
-        $dataProvider = new ActiveDataProvider([
+        $activeDataProvider = new ActiveDataProvider([
             'query' => $activeQuery,
-            'pagination' => [
-                'pageSize' => 5
-            ]
         ]);
-        if(!$this->load($params) && $this->validate())
-        {
-            return $dataProvider;
-        }
-        $activeQuery->andFilterWhere(['LIKE', 'id', $this->id])
-                ->andFilterWhere(['LIKE', 'username', $this->username])
-                ->andFilterWhere(['LIKE', 'email', $this->email])
-                ->andFilterWhere(['LIKE', 'status', $this->status])
-                ->andFilterWhere(['LIKE', 'level', $this->level]);
-        return $dataProvider;
+        
+        return $activeDataProvider;
     }
-    
 }

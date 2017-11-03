@@ -3,24 +3,28 @@
 namespace app\modules\account\models;
 
 use Yii;
+use app\modules\link\models\Link;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "users".
  *
  * @property integer $id
  * @property string $username
+ * @property string $password
  * @property string $email
- * @property string $password_hash
- * @property integer $status
- * @property string $auth_key
- * @property string $password_reset_token
- * @property string $account_activation_token
- * @property string $created_at
- * @property string $updated_at
- * @property integer $level
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $logo
+ * @property integer $usertype
+ * @property integer $signuptime
+ * @property string $authKey
+ *
+ * @property Link[] $links
+ * @property Usertype $usertype0
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $file;
     /**
      * @inheritdoc
      */
@@ -35,13 +39,16 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'email', 'password_hash', 'status', 'auth_key', 'created_at', 'updated_at', 'level'], 'required'],
-            [['status', 'level'], 'integer'],
-            [['username', 'email', 'password_hash', 'password_reset_token', 'account_activation_token', 'created_at', 'updated_at'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['password_reset_token'], 'unique'],
+            [['username', 'password', 'email', 'usertype', 'signuptime', 'authKey'], 'required','message'=>'فیلد را پر کنید'],
+            [['usertype', 'signuptime'], 'integer'],
+            [['username', 'authKey'], 'string', 'max' => 200],
+            [['password', 'email'], 'string', 'max' => 250],
+            [['first_name', 'last_name'], 'string', 'max' => 100],
+            [['logo'], 'string', 'max' => 500],
+            [['username'], 'unique','message'=>'کاربر قبلا ثبت شده است'],
+            [['email'], 'email','message'=>'ایمیل معتبر نیست'],
+            [['email'], 'unique','message'=>'این کاربر قبلا ثبت شده است'],
+
         ];
     }
 
@@ -51,17 +58,101 @@ class User extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
-            'email' => 'Email',
-            'password_hash' => 'Password Hash',
-            'status' => 'Status',
-            'auth_key' => 'Auth Key',
-            'password_reset_token' => 'Password Reset Token',
-            'account_activation_token' => 'Account Activation Token',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'level' => 'Level',
+            'id' => 'شناسه',
+            'username' => 'نام کاربری',
+            'password' => 'رمز',
+            'email' => 'ایمیل',
+            'first_name' => 'نام',
+            'last_name' => 'نام خانوادگی',
+            'logo' => 'تصویر',
+            'usertype' => 'نوع کاربر',
+            'signuptime' => 'زمان ثبت نام',
+            'authKey' => 'کلید اعتبار',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLinks()
+    {
+        return $this->hasMany(Link::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser_type()
+    {
+        return $this->hasOne(Usertype::className(), ['id' => 'usertype']);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        
+    }
+
+    /**
+     * Finds user by username
+     *
+     * @param  string      $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @return boolean if password provided is valid for current user
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->auth_key === $authKey;
+    }
+
+    /**
+     * Validates password
+     *
+     * @param  string  $password password to validate
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+       
+    }
+
+    public function genarateAuthKey()
+    {
+        $this->authKey = Yii::$app->getSecurity()->generateRandomString();
     }
 }
