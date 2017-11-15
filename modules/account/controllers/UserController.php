@@ -54,8 +54,8 @@ class UserController extends Controller
       return  $this->renderAjax('update',[
           'userModel'=>$userModel
       ]);
->>>>>>> origin/master
-
+    }
+    
     public $defaultAction = 'login';
 
     public function actions()
