@@ -26,15 +26,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tags')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'updated_at')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'type_id')->textInput()->dropDownList($typeItems, [
+        'prompt' => '--نوع تبلیغ--'
+    ]) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'type_id')->textInput() ?>
-
-    <?= $form->field($model, 'plan_id')->textInput() ?>
+    <?= $form->field($model, 'plan_id')->textInput()->dropDownList($planItems, [
+        'prompt' => '--نوع پلن--'
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

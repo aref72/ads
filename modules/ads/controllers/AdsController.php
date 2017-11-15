@@ -8,19 +8,35 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\ads\models\Type;
+use yii\helpers\ArrayHelper;
+use app\modules\ads\models\Plan;
 
 /**
  * AdsController implements the CRUD actions for Ads model.
  */
 class AdsController extends Controller
 {
-    public $layout='\\admin';
+    public $layout = '//admin';
+    
+    public $defaultAction = 'index';
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -65,12 +81,18 @@ class AdsController extends Controller
     public function actionCreate()
     {
         $model = new Ads();
-
+        $model->user_id = Yii::$app->user->id;
+        $model->created_at = time().'';
+        $model->updated_at = time().'';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $typeItems = ArrayHelper::map(Type::find()->asArray()->all(), 'id', 'name');
+            $planItems = ArrayHelper::map(Plan::find()->asArray()->all(), 'id', 'name');
             return $this->render('create', [
                 'model' => $model,
+                'typeItems' => $typeItems,
+                'planItems' => $planItems
             ]);
         }
     }
@@ -107,6 +129,15 @@ class AdsController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionMyAds()
+    {
+        $adsModel = Ads::find()->myAds()->all();
+        
+        return $this->render('my_ads', [
+            'adsModel' => $adsModel,
+        ]);
+    }
+    
     /**
      * Finds the Ads model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -63,20 +63,29 @@ class Ads extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'image' => 'Image',
-            'star' => 'Star',
-            'rate' => 'Rate',
-            'status' => 'Status',
-            'tags' => 'Tags',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'user_id' => 'User ID',
-            'type_id' => 'Type ID',
-            'plan_id' => 'Plan ID',
+            'id' => 'شناسه',
+            'title' => 'عنوان',
+            'description' => 'توضیح',
+            'image' => 'عکص',
+            'star' => 'ستاره',
+            'rate' => 'رتبه',
+            'status' => 'وضعیت',
+            'tags' => 'تگ ها',
+            'created_at' => 'زمان ایجاد',
+            'updated_at' => 'زمان ویرایش',
+            'user_id' => 'شناسه کاربر',
+            'type_id' => 'نوع تبلیغ',
+            'plan_id' => 'نوع پلن',
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     * @return AdsaQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new AdsQuery(get_called_class());
     }
 
     /**

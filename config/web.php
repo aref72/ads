@@ -24,8 +24,9 @@ $config = [
         ],
         'view' => [
             'theme' => [
-                'pathMap' => ['@app/views' => '@webroot/themes/adminlte'],
+//                'pathMap' => ['@app/views' => '@webroot/themes/adminlte'],
                 'baseUrl' => '@web/themes/adminlte',
+                'basePath' => '@app/web/themes/adminlte'
             ],
         ],
         'request' => [

@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\ads\models\Ads */
 
-$this->title = 'Create Ads';
-$this->params['breadcrumbs'][] = ['label' => 'Ads', 'url' => ['index']];
+$this->title = 'ایجاد تبلیغ جدید';
+$this->params['breadcrumbs'][] = ['label' => 'صفحه تبلیغ', 'url' => ['my-ads']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ads-create">
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'typeItems' => $typeItems,
+        'planItems' => $planItems
     ]) ?>
 
 </div>

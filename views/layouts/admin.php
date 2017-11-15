@@ -1,6 +1,7 @@
 <?php 
 use yii\helpers\Html;
 use app\assets\AdminLTEAsset;
+use yii\widgets\Breadcrumbs;
 AdminLTEAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -86,6 +87,9 @@ AdminLTEAsset::register($this);
       <!-- Main row -->
       <div class="row">
           <div class="col-lg-12 col-md-12">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
               <?= $content ?>
           </div>
       </div>
