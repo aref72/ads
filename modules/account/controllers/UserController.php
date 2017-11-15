@@ -11,8 +11,50 @@ use app\modules\account\models\SendMessageForm;
 use yii\web\UploadedFile;
 
 class UserController extends Controller
+
 { 
     public $layout = '//admin';
+
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function actionList()
+    {
+        $userSearchModel = new \app\modules\account\models\UserSearch();
+        $dataProvider = $userSearchModel->search(Yii::$app->request->queryParams);
+        
+        
+        return $this->render('list',[
+            'userSearchModel' => $userSearchModel,
+            'dataProvider'=>$dataProvider
+        ]);
+        
+    }
+    
+    public function actionDelete($id)
+    {
+        $userModel= User::findOne($id);
+        $userModel->delete();
+        $this->redirect(['list']);
+    }
+    
+    public function actionUpdate($id)
+    {
+  
+        $userModel= User::findOne($id);
+        $userModel->updated_at= time().'';
+        $userModel->auth_key= \Yii::$app->security->generateRandomString();
+        if ($userModel->load(\Yii::$app->request->post()) && $userModel->validate()){
+            $userModel->password_hash= \Yii::$app->security->generatePasswordHash($userModel->password_hash);
+            $userModel->save();
+           $this->redirect(['list']);
+        }
+      return  $this->renderAjax('update',[
+          'userModel'=>$userModel
+      ]);
+>>>>>>> origin/master
 
     public $defaultAction = 'login';
 
