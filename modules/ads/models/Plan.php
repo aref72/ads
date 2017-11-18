@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "plan".
  *
  * @property integer $id
- * @property string $title
+ * @property string $name
  * @property string $description
  * @property integer $days
  * @property integer $status
@@ -33,7 +33,7 @@ class Plan extends \yii\db\ActiveRecord
     {
         return [
             [['days', 'status'], 'integer'],
-            [['title', 'description'], 'string', 'max' => 45],
+            [['name', 'description'], 'string', 'max' => 45],
         ];
     }
 
@@ -44,7 +44,7 @@ class Plan extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+            'name' => 'Title',
             'description' => 'Description',
             'days' => 'Days',
             'status' => 'Status',
@@ -65,5 +65,15 @@ class Plan extends \yii\db\ActiveRecord
     public function getAdsPlans()
     {
         return $this->hasMany(AdsPlan::className(), ['plan_id' => 'id']);
+    }
+    
+    
+    public function getIsWinWin()
+    {
+        //طرح برد برد
+        if($this->id == 1)
+        {
+            return true;
+        }
     }
 }

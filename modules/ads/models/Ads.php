@@ -20,10 +20,8 @@ use app\modules\account\models\User;
  * @property string $updated_at
  * @property integer $user_id
  * @property integer $type_id
- * @property integer $plan_id
  *
  * @property User $user
- * @property Plan $plan
  * @property Type $type
  * @property AdsPlan[] $adsPlans
  */
@@ -45,14 +43,13 @@ class Ads extends \yii\db\ActiveRecord
         return [
             [['title', 'description'], 'required'],
             [['description'], 'string'],
-            [['status', 'user_id', 'type_id', 'plan_id'], 'integer'],
+            [['status', 'user_id', 'type_id'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['image', 'tags'], 'string', 'max' => 100],
             [['star'], 'string', 'max' => 5],
             [['rate'], 'string', 'max' => 20],
             [['created_at', 'updated_at'], 'string', 'max' => 30],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['plan_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Type::className(), 'targetAttribute' => ['type_id' => 'id']],
         ];
     }
@@ -66,7 +63,7 @@ class Ads extends \yii\db\ActiveRecord
             'id' => 'شناسه',
             'title' => 'عنوان',
             'description' => 'توضیح',
-            'image' => 'عکص',
+            'image' => 'عکس',
             'star' => 'ستاره',
             'rate' => 'رتبه',
             'status' => 'وضعیت',
@@ -75,7 +72,6 @@ class Ads extends \yii\db\ActiveRecord
             'updated_at' => 'زمان ویرایش',
             'user_id' => 'شناسه کاربر',
             'type_id' => 'نوع تبلیغ',
-            'plan_id' => 'نوع پلن',
         ];
     }
     
@@ -96,13 +92,6 @@ class Ads extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPlan()
-    {
-        return $this->hasOne(Plan::className(), ['id' => 'plan_id']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -118,5 +107,20 @@ class Ads extends \yii\db\ActiveRecord
     public function getAdsPlans()
     {
         return $this->hasMany(AdsPlan::className(), ['ads_id' => 'id']);
+    }
+    
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdsCategories()
+    {
+        return $this->hasMany(AdsCategory::className(), ['ads_id' => 'id']);
+    }
+    
+    
+    public function getInout()
+    {
+        return $this->hasOne(Inout::className(), ['ads_id' => 'id']);
     }
 }

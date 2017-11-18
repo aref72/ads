@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'user_id',
             'type_id',
-            'plan_id',
         ],
     ]) ?>
 

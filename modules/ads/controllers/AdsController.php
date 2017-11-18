@@ -103,15 +103,19 @@ class AdsController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($aid)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($aid);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            $typeItems = ArrayHelper::map(Type::find()->asArray()->all(), 'id', 'name');
+            $planItems = ArrayHelper::map(Plan::find()->asArray()->all(), 'id', 'name');
+            return $this->renderAjax('update', [
                 'model' => $model,
+                'typeItems' => $typeItems,
+                'planItems' => $planItems
             ]);
         }
     }
@@ -138,6 +142,14 @@ class AdsController extends Controller
         ]);
     }
     
+    
+    public function actionViewMyads($aid)
+    {
+        $adsModel = Ads::find()->myAds()->andWhere(['id' => $aid])->one();
+        return $this->render('view_myads', [
+            'adsModel' => $adsModel,
+        ]);
+    }
     /**
      * Finds the Ads model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

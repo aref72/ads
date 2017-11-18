@@ -15,13 +15,13 @@ class m171103_111711_create_plan_table extends Migration
     {
         $this->createTable($this->tableName, [
             'id' => $this->primaryKey(),
-            'title' => $this->string(45)->comment('عنوان'),
+            'name' => $this->string(45)->comment('عنوان'),
             'description' => $this->string(45)->comment('توضیحات'),
             'days' => $this->integer()->comment('تعداد روزهای رزو تبلیغ'),
             'status' => $this->boolean()->comment('وضعیت'),
         ]);
         $this->db->createCommand()->insert($this->tableName, [
-            'title' => 'طرح رایگان سه ماهه',
+            'name' => 'طرح رایگان سه ماهه',
             'days' => 90,
             'status' => 1
         ]);

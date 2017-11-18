@@ -31,10 +31,6 @@ use yii\widgets\ActiveForm;
         'prompt' => '--نوع تبلیغ--'
     ]) ?>
 
-    <?= $form->field($model, 'plan_id')->textInput()->dropDownList($planItems, [
-        'prompt' => '--نوع پلن--'
-    ]) ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

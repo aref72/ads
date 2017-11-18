@@ -21,6 +21,7 @@ class LoginAsset extends AssetBundle
     public $baseUrl="@themes";
     public $css = [
         'css/animate.min.css',
+        'css/background-login.css'
     ];
     public $depends = [
         'yii\web\YiiAsset',

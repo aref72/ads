@@ -30,11 +30,9 @@ class m171104_160433_create_ads_table extends Migration
         ]);
         $this->createIndex('idx_ads_user_id', $this->tableName, 'user_id');
         $this->createIndex('idx_ads_type_id', $this->tableName, 'type_id');
-        $this->createIndex('idx_ads_plan_id', $this->tableName, 'plan_id');
         
         $this->addForeignKey('fk_ads_user_id', $this->tableName, 'user_id', 'user', 'id');
         $this->addForeignKey('fk_type_id', $this->tableName, 'type_id', 'type', 'id');
-        $this->addForeignKey('fk_plan_id', $this->tableName, 'plan_id', 'plan', 'id');
     }
 
     /**

@@ -125,22 +125,23 @@ class Utility extends Component{
               </a>
             </li>
             <li class="treeview">
-                <a href="<?= yii\helpers\Url::to(['/telegram']); ?>">
-                <i class="fa fa-dashboard"></i> <span>تلگرام</span>
+                <a href="<?= yii\helpers\Url::to(['/ads/ads/index']); ?>">
+                <i class="fa fa-user"></i> <span>تبلیغ ها</span>
+              </a>
+            </li>
+            <li class="treeview">
+                <a href="<?= yii\helpers\Url::to(['/ads/ads/my-ads']); ?>">
+                <i class="fa fa-dashboard"></i> <span>تبلیغ های من</span>
               </a>
             </li>
              <li class="treeview">
-                <a href="<?= yii\helpers\Url::to(['/admin/category']); ?>">
+                <a href="<?= yii\helpers\Url::to(['/ads/category/index']); ?>">
                 <i class="fa fa-dashboard"></i> <span>دسته بندی</span>
               </a>
             </li>          
+            
             <li class="treeview">
-                <a href="<?= yii\helpers\Url::to(['/admin/my-telegram']); ?>">
-                <i class="fa fa-user"></i> <span>تلگرام من</span>
-              </a>
-            </li>
-            <li class="treeview">
-                <a href="<?= yii\helpers\Url::to(['/account/logout']); ?>">
+                <a href="<?= yii\helpers\Url::to(['/account/user/logout']); ?>">
                 <i class="fa fa-sign-out"></i> <span>خروج</span>
               </a>
             </li>
@@ -159,4 +160,16 @@ class Utility extends Component{
         return "<script>".$callback."(".$data.")</script>";
     }
     
+    
+    public function getImageDirectoryUser($image_name) {
+        $userid = Yii::$app->user->id;
+        $web_url = Yii::getAlias('@web').'/uploads/'.$userid;
+        $file_path = Yii::getAlias('@webroot').'/uploads/'.$userid;
+        $image_name = empty($image_name) ? 'default_post.jpg':$image_name;
+        if(file_exists($file_path.$image_name))
+        {
+            return $web_url.$image_name;
+        }
+        return  Yii::getAlias('@web').'/themes/adminlte/main/image/'.$image_name;
+    }
 }

@@ -15,20 +15,33 @@ LoginAsset::register($this);
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
 <html>
-<head>
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><?php echo Html::encode($this->title); ?></title> 
-    <?php $this->head(); ?>
-</head>
-<body style="background: url(<?= $this->theme->baseUrl ?>/main/image/backlogin.png) no-repeat; background-size: cover;">
-    <?php $this->beginBody() ?>
-    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title><?php echo Html::encode($this->title); ?></title> 
+        <?php $this->head(); ?>
+    </head>
+    <body>
+<?php $this->beginBody() ?>
+<div class="wrapper">
     <div class="container">
+        <h1>خوش آمدید</h1>
         <?= $content ?>
     </div>
-    <?php $this->endBody() ?>
-</body>
-    
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<?php $this->endBody() ?>
+    </body>
+
 </html>
 <?php $this->endPage(); ?>

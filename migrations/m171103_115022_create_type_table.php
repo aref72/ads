@@ -14,7 +14,7 @@ class m171103_115022_create_type_table extends Migration
     {
         $this->createTable('type', [
             'id' => $this->primaryKey()->comment('شناسه'),
-            'title' => $this->string(40)->comment('عنوان'),
+            'name' => $this->string(40)->comment('نام نوع تبلیغ'),
         ]);
     }
 
