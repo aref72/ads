@@ -139,7 +139,11 @@ class Utility extends Component{
                 <i class="fa fa-dashboard"></i> <span>دسته بندی</span>
               </a>
             </li>          
-            
+            <li class="treeview">
+                <a href="<?= yii\helpers\Url::to(['/ads/plan/index']); ?>">
+                <i class="fa fa-dashboard"></i> <span>پلان ها</span>
+              </a>
+            </li> 
             <li class="treeview">
                 <a href="<?= yii\helpers\Url::to(['/account/user/logout']); ?>">
                 <i class="fa fa-sign-out"></i> <span>خروج</span>
