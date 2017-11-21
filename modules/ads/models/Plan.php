@@ -43,11 +43,11 @@ class Plan extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Title',
-            'description' => 'Description',
-            'days' => 'Days',
-            'status' => 'Status',
+            'id' => 'شناسه',
+            'name' => 'نام',
+            'description' => 'توضیحات',
+            'days' => 'مدت زمان(روز) ',
+            'status' => 'وضعیت',
         ];
     }
 
